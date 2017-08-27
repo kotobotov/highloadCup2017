@@ -26,9 +26,9 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     * a path of `/`.
     */
 
-  val users = mutable.HashMap((Json.parse(scala.io.Source.fromFile("C:\\inetpub\\play\\Obuchenie\\highload\\resource\\data\\users_1.json")("UTF-8").getLines.mkString) \ "users").as[Seq[User]].map(user => (user.id -> user)): _*)
-  val visits = mutable.HashMap((Json.parse(scala.io.Source.fromFile("C:\\inetpub\\play\\Obuchenie\\highload\\resource\\data\\visits_1.json")("UTF-8").getLines.mkString) \ "visits").as[mutable.ArrayBuffer[Visit]].map(item => (item.id -> item)): _*)
-  val locations = mutable.HashMap((Json.parse(scala.io.Source.fromFile("C:\\inetpub\\play\\Obuchenie\\highload\\resource\\data\\locations_1.json")("UTF-8").getLines.mkString) \ "locations").as[mutable.ArrayBuffer[Location]].map(item => (item.id -> item)): _*)
+  val users = mutable.HashMap((Json.parse(scala.io.Source.fromFile("/root/highload-2017/public/javascripts/users_1.json")("UTF-8").getLines.mkString) \ "users").as[Seq[User]].map(user => (user.id -> user)): _*)
+  val visits = mutable.HashMap((Json.parse(scala.io.Source.fromFile("/root/highload-2017/public/javascripts/visits_1.json")("UTF-8").getLines.mkString) \ "visits").as[mutable.ArrayBuffer[Visit]].map(item => (item.id -> item)): _*)
+  val locations = mutable.HashMap((Json.parse(scala.io.Source.fromFile("/root/highload-2017/public/javascripts/locations_1.json")("UTF-8").getLines.mkString) \ "locations").as[mutable.ArrayBuffer[Location]].map(item => (item.id -> item)): _*)
   var visitsByUser = mutable.HashMap.empty[Int, mutable.SortedSet[Visit]]
   var visitsByLocation = mutable.HashMap.empty[Int, mutable.SortedSet[Visit]]
 
