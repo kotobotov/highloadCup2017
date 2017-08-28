@@ -1,5 +1,6 @@
 package controllers
 
+import java.io.File
 import javax.inject._
 
 import model._
@@ -25,10 +26,34 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     * will be called when the application receives a `GET` request with
     * a path of `/`.
     */
+  ///root/public/javascripts/
 
-  val users = mutable.HashMap((Json.parse(scala.io.Source.fromFile("/root/highload-2017/public/javascripts/users_1.json")("UTF-8").getLines.mkString) \ "users").as[Seq[User]].map(user => (user.id -> user)): _*)
-  val visits = mutable.HashMap((Json.parse(scala.io.Source.fromFile("/root/highload-2017/public/javascripts/visits_1.json")("UTF-8").getLines.mkString) \ "visits").as[mutable.ArrayBuffer[Visit]].map(item => (item.id -> item)): _*)
-  val locations = mutable.HashMap((Json.parse(scala.io.Source.fromFile("/root/highload-2017/public/javascripts/locations_1.json")("UTF-8").getLines.mkString) \ "locations").as[mutable.ArrayBuffer[Location]].map(item => (item.id -> item)): _*)
+  def getListOfFiles(dir: String):List[File] = {
+    val d = new File(dir)
+    if (d.exists && d.isDirectory) {
+      d.listFiles.filter(_.isFile).toList
+    } else {
+      List[File]()
+    }
+  }
+
+  val files = if (new File("/tmp/data/data.zip" ).exists()) getListOfFiles("/root/resource/")
+              else getListOfFiles("C:\\inetpub\\play\\Obuchenie\\hlcupdocs\\data\\FULL\\data")
+
+
+
+  val users = mutable.HashMap(files.filter(_.getName.contains("users"))
+                              //.flatMap{ item => (Json.parse( scala.io.Source.fromFile(s"/root/public/javascripts/FULL/data/users_$item.json")("UTF-8").getLines.mkString) \ "users")
+                              .flatMap{ file => (Json.parse( scala.io.Source.fromFile(file)("UTF-8").getLines.mkString) \ "users")
+                                                .as[Seq[User]] }.map(item => (item.id -> item)): _*)
+  val visits = mutable.HashMap(files.filter(_.getName.contains("visits"))
+                               //.flatMap{ item => (Json.parse( scala.io.Source.fromFile(s"C:\\inetpub\\play\\Obuchenie\\highload\\public\\javascripts\\FULL\\data\\visits_$item.json")("UTF-8").getLines.mkString) \ "visits")
+                               .flatMap{ file => (Json.parse( scala.io.Source.fromFile(file)("UTF-8").getLines.mkString) \ "visits")
+                                                 .as[Seq[Visit]] }.map(item => (item.id -> item)): _*)
+  val locations = mutable.HashMap(files.filter(_.getName.contains("locations"))
+                                  //.flatMap{ item => (Json.parse( scala.io.Source.fromFile(s"C:\\inetpub\\play\\Obuchenie\\highload\\public\\javascripts\\FULL\\data\\locations_$item.json")("UTF-8").getLines.mkString) \ "locations")
+                                  .flatMap{ file => (Json.parse( scala.io.Source.fromFile(file)("UTF-8").getLines.mkString) \ "locations")
+                                                    .as[Seq[Location]] }.map(item => (item.id -> item)): _*)
   var visitsByUser = mutable.HashMap.empty[Int, mutable.SortedSet[Visit]]
   var visitsByLocation = mutable.HashMap.empty[Int, mutable.SortedSet[Visit]]
 
