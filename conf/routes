@@ -18,7 +18,7 @@ GET         /locations/:id            controllers.HomeController.locationInfo(id
 GET         /visits/:id                controllers.HomeController.visitInfo(id:Int)
 
 
-GET         /users/:id/visits         controllers.HomeController.userVizits(id:Int)
+GET         /users/:id/visits         controllers.HomeController.userVisits(id:Int)
 GET         /locations/:id/avg        controllers.HomeController.averageEvaluation(id:Int)
 POST        /users/:id                controllers.HomeController.updateUser(id:Int)
 POST        /locations/:id            controllers.HomeController.updateLocation(id:Int)

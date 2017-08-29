@@ -5,7 +5,7 @@ import play.api.http.HttpErrorHandler
 import play.api.http.Status.{ INTERNAL_SERVER_ERROR, NOT_FOUND, UNPROCESSABLE_ENTITY }
 import play.api.i18n.{ I18nSupport, Messages, MessagesApi }
 import play.api.libs.json.Json
-import play.api.mvc.Results.{ InternalServerError, NotImplemented, NotFound, Status }
+import play.api.mvc.Results.{ InternalServerError, NotImplemented, NotFound, BadRequest, Status }
 import play.api.mvc.{ RequestHeader, Result }
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -34,15 +34,9 @@ class ErrorHandler @Inject()(val messagesApi: MessagesApi) extends HttpErrorHand
       //case NonFatal(e) => {
       case _ => {
         val id = UUID.randomUUID
-        Logger.error(s"$id - Error while processing request. Returning $INTERNAL_SERVER_ERROR for ${request.uri}")
+        Logger.error(s"$id - Error for ${request.uri} - Returning $INTERNAL_SERVER_ERROR ")
 
-        Future.successful(NotFound(Json.obj(
-          "error" -> Json.obj(
-            "id" -> id,
-            "statusCode" -> InternalServerError.toString(),
-            "message" -> s"exceptions.$INTERNAL_SERVER_ERROR"
-          )
-        )))
+        Future.successful(NotFound(""))
       }
     }
   }

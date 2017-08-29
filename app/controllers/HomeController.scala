@@ -43,15 +43,12 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
 
 
   val users = mutable.HashMap(files.filter(_.getName.contains("users"))
-                              //.flatMap{ item => (Json.parse( scala.io.Source.fromFile(s"/root/public/javascripts/FULL/data/users_$item.json")("UTF-8").getLines.mkString) \ "users")
                               .flatMap{ file => (Json.parse( scala.io.Source.fromFile(file)("UTF-8").getLines.mkString) \ "users")
                                                 .as[Seq[User]] }.map(item => (item.id -> item)): _*)
   val visits = mutable.HashMap(files.filter(_.getName.contains("visits"))
-                               //.flatMap{ item => (Json.parse( scala.io.Source.fromFile(s"C:\\inetpub\\play\\Obuchenie\\highload\\public\\javascripts\\FULL\\data\\visits_$item.json")("UTF-8").getLines.mkString) \ "visits")
                                .flatMap{ file => (Json.parse( scala.io.Source.fromFile(file)("UTF-8").getLines.mkString) \ "visits")
                                                  .as[Seq[Visit]] }.map(item => (item.id -> item)): _*)
   val locations = mutable.HashMap(files.filter(_.getName.contains("locations"))
-                                  //.flatMap{ item => (Json.parse( scala.io.Source.fromFile(s"C:\\inetpub\\play\\Obuchenie\\highload\\public\\javascripts\\FULL\\data\\locations_$item.json")("UTF-8").getLines.mkString) \ "locations")
                                   .flatMap{ file => (Json.parse( scala.io.Source.fromFile(file)("UTF-8").getLines.mkString) \ "locations")
                                                     .as[Seq[Location]] }.map(item => (item.id -> item)): _*)
   var visitsByUser = mutable.HashMap.empty[Int, mutable.SortedSet[Visit]]
@@ -63,19 +60,21 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
   }
 
   def userInfo(id: Int) = Action {
-    //Logger.info(RelativePath)
-    Ok(Json.toJson(users(id)))
+    if (users.contains(id)) Ok(Json.toJson(users(id)))
+    else NotFound("")
   }
 
   def locationInfo(id: Int) = Action {
-    Ok(Json.toJson(locations(id)))
+    if (locations.contains(id)) Ok(Json.toJson(locations(id)))
+    else NotFound("")
   }
 
   def visitInfo(id: Int) = Action {
-    Ok(Json.toJson(locations(id)))
+    if (visits.contains(id)) Ok(Json.toJson(visits(id)))
+    else NotFound("")
   }
 
-  def userVizits(id: Int) = Action { implicit request: Request[AnyContent] =>
+  def userVisits(id: Int) = Action { implicit request: Request[AnyContent] =>
     val param = request.queryString.map(item => (item._1, item._2.head)).toList
     Logger.info(param.toString)
     var otvet = visitsByUser(id)

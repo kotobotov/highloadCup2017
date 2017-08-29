@@ -36,6 +36,8 @@ ADD . /root
 
 EXPOSE 80
 
+./target/universal/stage/bin/highload -Dhttp.port=80 -J-Xms3900M -J-Xmx3900m -J-server J-XX:MaxMetaspaceSize=3048M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m
+
 
 #Inspect your images
 #docker images 
@@ -45,4 +47,8 @@ EXPOSE 80
 #docker commit -m "comment" highload
 #docker push stor.highloadcup.ru/travels/solid_barracuda
 #docker run --rm -p 9000:80 -t highload
-
+#env:SBT_OPTS="-Xms512M -Xmx3900M -Xss2M -XX:MaxMetaspaceSize=3048M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m"
+# or on startup script:
+# -J-Xms128M -J-Xmx512m -J-server 
+# C:\progi\GO\bin
+#./highloadcup_tester -addr http://127.0.0.1:9000 -hlcupdocs C:\inetpub\play\Obuchenie\hlcupdocs\data\FULL -test -phase 1
