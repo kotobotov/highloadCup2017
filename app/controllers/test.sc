@@ -1,17 +1,5 @@
-import java.io.File
+val myData = "16 3 -2 8 -4 5"
+val count=2
 
-import model.User
-import play.api.libs.json.Json
-
-
-def getListOfFiles(dir: String):List[File] = {
-  val d = new File(dir)
-  if (d.exists && d.isDirectory) {
-    d.listFiles.filter(_.isFile).toList
-  } else {
-    List[File]()
-  }
-}
-
-val files = getListOfFiles("C:\\inetpub\\play\\Obuchenie\\highload\\resource").filter(_.getName.contains("locations"))
-
+myData.split("\\D+").map(_.toInt).min
+myData.split(" ").map(_.toInt).minBy(t=>(t.abs,t<0))

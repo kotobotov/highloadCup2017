@@ -9,10 +9,11 @@ lazy val root = project.in(file(".")).enablePlugins(PlayScala).disablePlugins(Pl
 
 scalaVersion := "2.12.3"
 
+incOptions := incOptions.value.withNameHashing(true)
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.0" % Test
-javaOptions += "-Xms3600M"
-javaOptions += "-Xmx3600M"
+javaOptions += "-Xms3000M"
+javaOptions += "-Xmx3000M"
 
 fork in run := true
 //

@@ -8,7 +8,8 @@ FROM  openjdk:8u141-jdk
 
 ENV SCALA_VERSION 2.12.3
 ENV SBT_VERSION 0.13.16
-
+ENV JAVA_OPTS="-Xms512M -Xmx3000M -Xss2M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m -XX:+UseG1GC -XX:+UseCompressedOops"
+ENV SBT_OPTS="-Xms512M -Xmx3000M -Xss2M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m -XX:+UseG1GC"
 # Scala expects this file
 RUN touch /usr/lib/jvm/java-8-openjdk-amd64/release
 
@@ -36,7 +37,7 @@ ADD . /root
 
 EXPOSE 80
 
-./target/universal/stage/bin/highload -Dhttp.port=80 -J-Xms3900M -J-Xmx3900m -J-server J-XX:MaxMetaspaceSize=3048M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m
+CMD ./target/universal/stage/bin/highload -Dhttp.port=80 -J-Xms3000M -J-Xmx3000m -J-server
 
 
 #Inspect your images
@@ -45,6 +46,7 @@ EXPOSE 80
 #docker rmi --force 'image id'
 #docker build --tag stor.highloadcup.ru/travels/solid_barracuda .
 #docker commit -m "comment" highload
+#sbt clean stage
 #docker push stor.highloadcup.ru/travels/solid_barracuda
 #docker run --rm -p 9000:80 -t highload
 #env:SBT_OPTS="-Xms512M -Xmx3900M -Xss2M -XX:MaxMetaspaceSize=3048M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m"
