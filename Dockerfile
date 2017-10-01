@@ -37,20 +37,5 @@ ADD . /root
 
 EXPOSE 80
 
+#working only if maked -> sbt clean stage
 CMD ./target/universal/stage/bin/highload -Dhttp.port=80 -J-Xms3000M -J-Xmx3000m -J-server
-
-
-#Inspect your images
-#docker images 
-#Delete some:
-#docker rmi --force 'image id'
-#docker build --tag stor.highloadcup.ru/travels/solid_barracuda .
-#docker commit -m "comment" highload
-#sbt clean stage
-#docker push stor.highloadcup.ru/travels/solid_barracuda
-#docker run --rm -p 9000:80 -t highload
-#env:SBT_OPTS="-Xms512M -Xmx3900M -Xss2M -XX:MaxMetaspaceSize=3048M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512m"
-# or on startup script:
-# -J-Xms128M -J-Xmx512m -J-server 
-# C:\progi\GO\bin
-#./highloadcup_tester -addr http://127.0.0.1:9000 -hlcupdocs C:\inetpub\play\Obuchenie\hlcupdocs\data\FULL -test -phase 1

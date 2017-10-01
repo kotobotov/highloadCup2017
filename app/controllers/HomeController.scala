@@ -221,7 +221,7 @@ val currentTime = System.currentTimeMillis()
 
 
   def updateLocation(id:String) = Action { implicit request: Request[AnyContent] =>
-    val params = (request.body.asJson).get.as[JsObject].value.toList
+    val params = request.body.asJson.get.as[JsObject].value.toList
 
     def parseArgument(par: List[(String, JsValue)])(data: Location): Location = par match {
       case x :: xs => parseArgument(xs)(eval(x, data))
