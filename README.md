@@ -7,7 +7,8 @@ It's Travel's data REST micro service
 
 with few api commands about users, and place were users travel, places also have own description, marks and ratings that places.
 api have some commands, to get, add, delete all information about users, travel places, ratings with different combinator to get and validate data
- 
+
+Stable code with no hacks using only modern scala ecoSystem's library witch can be used as template to create real business [reactive system](https://www.reactivemanifesto.org/) (responsive, resilient and easy to scale.)
  
 TECH stack
 --------
