@@ -60,7 +60,7 @@ Usage
 
 ### Assembly compiled microservice with Docker images:
 
-first Delete old images if have some
+first Delete old images if have one
 
 `docker rmi --force 'image id'`
 
